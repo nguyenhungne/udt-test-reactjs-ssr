@@ -3,7 +3,10 @@ import fs from 'fs'
 import path from 'path'
 import React from 'react'
 import ReactDOMServer from 'react-dom/server'
-import { App } from '../client/components/app'
+import  App  from '../client/app'
+import CalculatorPage from '../client/pages/calculator'
+import { StaticRouter } from 'react-router-dom/server';
+import { BrowserRouter } from 'react-router-dom';
 const server = express()
  
 server.set('view engine', 'ejs')
@@ -16,11 +19,23 @@ const manifest = fs.readFileSync(
   'utf-8'
 )
 const assets = JSON.parse(manifest)
+
  
-server.get('/', (req, res) => {
-  const component = ReactDOMServer.renderToString(React.createElement(App))
+// server.get('/', (req, res) => {
+//   const component = ReactDOMServer.renderToString(React.createElement(App))
+//   res.render('client', { assets, component })
+// })
+
+server.get("*", (req, res) => {
+  const context = {};
+  const component = ReactDOMServer.renderToString(
+    <StaticRouter location={req.url} context={context}>
+      <App />
+    </StaticRouter>
+  );
   res.render('client', { assets, component })
 })
+
 
 
 server.listen(3000, () => {
