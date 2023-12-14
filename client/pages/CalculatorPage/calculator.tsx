@@ -1,6 +1,7 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 import './calculatorPage.scss';
+import { KeyMap } from './keymap';
 const CalculatorPage = () => {
   return (
     <div className={'container'}>
@@ -10,9 +11,35 @@ const CalculatorPage = () => {
           <button className={'button-top button-green'}></button>
         <div className={'screen'}>
           {/* input */}
-          <div>0</div>
+          <div className={"calculator-display"}>0</div>
         </div>
-        <p>dsadsadjhsajdjhsajdsakdsakjdsajd</p>
+        <div className={"calculator-body"} >
+                {KeyMap.map((key, index) => {
+
+                    if (key.name === 'RESET') {
+                        //if (input)
+                        if (true) {
+                            return (
+                                <button className={`${key.className} calculator-button`} key={index}>
+                                    AC
+                                  </button>
+                                );
+                            } else {
+                            return (
+                                <button className={`${key.className} calculator-button`} key={index}>
+                                  C
+                                </button>
+                              );
+                        }
+                    }
+
+                return (
+                    <button className={`${key.className} calculator-button`} key={index}>
+                    {key.name}
+                    </button>
+                );
+                })}
+        </div>
       </div>
     </div>
   );
